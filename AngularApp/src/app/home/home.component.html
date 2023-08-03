@@ -1,0 +1,11 @@
+<p>{{ title }}</p>
+<p>{{ schema | json }}</p>
+<p>{{ employeeCompact?.page | json }}</p>
+<app-create-dialog></app-create-dialog>
+<app-employee-list
+  [employeeResponses]="employeeResponses"
+  [pageSize]="pageSize"
+  (pageSizeChange)="updatePageSize($event)"
+  [navLinks]="navLinks"
+  (onNavigate)="onNavigate($event)"
+></app-employee-list>

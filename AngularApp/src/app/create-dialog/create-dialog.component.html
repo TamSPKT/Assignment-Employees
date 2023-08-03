@@ -1,0 +1,111 @@
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="btn btn-success icon-link"
+  data-bs-toggle="modal"
+  [attr.data-bs-target]="'#' + id"
+>
+  Add Employee
+  <svg class="bi" aria-hidden="true">
+    <use xlink:href="bootstrap-icons.svg#plus-lg"></use>
+  </svg>
+</button>
+<!-- Modal -->
+<div
+  class="modal fade"
+  [id]="id"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  [attr.aria-labelledby]="id + 'Label'"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+        <div class="modal-header">
+          <h5 class="modal-title" [id]="id + 'Label'">Create New Employee</h5>
+          <button
+            [id]="id + 'CloseBtn'"
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              formControlName="firstName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+            />
+            <div
+              *ngIf="submitted && f.firstName.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.firstName.errors['required']">
+                First Name is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              formControlName="lastName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+            />
+            <div
+              *ngIf="submitted && f.lastName.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.lastName.errors['required']">
+                Last Name is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input
+              type="text"
+              formControlName="description"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+            />
+            <div
+              *ngIf="submitted && f.description.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.description.errors['required']">
+                Last Name is required
+              </div>
+            </div>
+          </div>
+          <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+            {{ error }}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button [disabled]="loading" class="btn btn-primary">
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

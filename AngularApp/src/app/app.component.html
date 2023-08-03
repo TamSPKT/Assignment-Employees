@@ -1,0 +1,22 @@
+<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="token">
+  <div class="navbar-nav">
+    <a class="nav-item nav-link icon-link" routerLink="/">
+      <svg class="bi" aria-hidden="true">
+        <use xlink:href="bootstrap-icons.svg#house-door"></use>
+      </svg>
+      Home
+    </a>
+    <a class="nav-item nav-link icon-link icon-link-hover" (click)="logout()">
+      Logout
+      <svg class="bi" aria-hidden="true">
+        <use xlink:href="bootstrap-icons.svg#box-arrow-right"></use>
+      </svg>
+    </a>
+  </div>
+</nav>
+
+<!-- main app container -->
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

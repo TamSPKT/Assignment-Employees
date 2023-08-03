@@ -1,0 +1,128 @@
+<div>
+  <form class="row mt-2 mb-2" [formGroup]="pageForm" (ngSubmit)="onSubmit()">
+    <div class="col input-group">
+      <label class="input-group-text" for="pageSize">Page size</label>
+      <input
+        type="number"
+        formControlName="pageSize"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': f.pageSize.errors }"
+      />
+      <div *ngIf="f.pageSize.errors" class="invalid-feedback">
+        <div *ngIf="f.pageSize.errors['required']">Page size is required</div>
+        <div *ngIf="f.pageSize.errors['min']">
+          Page size muse be greater than or equal to 1
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button [disabled]="loading" class="btn btn-primary">
+        <span
+          *ngIf="loading"
+          class="spinner-border spinner-border-sm mr-1"
+        ></span>
+        Set
+      </button>
+    </div>
+  </form>
+  <table class="table table-hover table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Description</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr *ngFor="let employeeResponse of employeeResponses">
+        <td>{{ getId(employeeResponse) }}</td>
+        <td>{{ employeeResponse.body!.firstName }}</td>
+        <td>{{ employeeResponse.body!.lastName }}</td>
+        <td>{{ employeeResponse.body!.description }}</td>
+        <td>
+          <app-update-dialog
+            *ngIf="isManagerCorrect(employeeResponse); else elseBlock"
+            [employeeResponse]="employeeResponse"
+          ></app-update-dialog>
+          <ng-template #elseBlock>Not your employee</ng-template>
+        </td>
+        <td>
+          <button
+            *ngIf="isManagerCorrect(employeeResponse); else elseBlock"
+            type="button"
+            class="btn btn-link icon-link icon-link-hover link-danger"
+            (click)="onDelete(employeeResponse.body!._links.self.href)"
+          >
+            Delete
+            <svg class="bi" aria-hidden="true">
+              <use xlink:href="bootstrap-icons.svg#trash"></use>
+            </svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <caption>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li
+            class="page-item"
+            [ngClass]="{
+              disabled:
+                getNavLink('prev') === undefined ||
+                getNavLink('first') === getNavLink('prev')
+            }"
+          >
+            <a class="page-link icon-link" (click)="handleNavLink('first')">
+              <svg class="bi" aria-hidden="true">
+                <use xlink:href="bootstrap-icons.svg#chevron-double-left"></use>
+              </svg>
+              First
+            </a>
+          </li>
+          <li
+            class="page-item"
+            [ngClass]="{ disabled: getNavLink('prev') === undefined }"
+          >
+            <a class="page-link icon-link" (click)="handleNavLink('prev')">
+              <svg class="bi" aria-hidden="true">
+                <use xlink:href="bootstrap-icons.svg#chevron-left"></use>
+              </svg>
+              Previous
+            </a>
+          </li>
+          <li
+            class="page-item"
+            [ngClass]="{ disabled: getNavLink('next') === undefined }"
+          >
+            <a class="page-link icon-link" (click)="handleNavLink('next')">
+              Next
+              <svg class="bi" aria-hidden="true">
+                <use xlink:href="bootstrap-icons.svg#chevron-right"></use>
+              </svg>
+            </a>
+          </li>
+          <li
+            class="page-item"
+            [ngClass]="{
+              disabled:
+                getNavLink('next') === undefined ||
+                getNavLink('last') === getNavLink('next')
+            }"
+          >
+            <a class="page-link icon-link" (click)="handleNavLink('last')">
+              Last
+              <svg class="bi" aria-hidden="true">
+                <use
+                  xlink:href="bootstrap-icons.svg#chevron-double-right"
+                ></use>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </caption>
+  </table>
+</div>
